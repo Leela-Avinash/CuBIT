@@ -5,9 +5,10 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
-import { startLocationUpdates } from "./store/slices/deviceSlice";
+import { fetchCurrentDeviceLocation, startLocationUpdates } from "./store/slices/deviceSlice";
 
 store.dispatch(startLocationUpdates());
+store.dispatch(fetchCurrentDeviceLocation());
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>

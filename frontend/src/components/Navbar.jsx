@@ -28,7 +28,7 @@ const Navbar = () => {
           to="/"
           className="text-2xl font-bold text-white hover:text-gray-300 transition-colors duration-300"
         >
-          MERN App
+          CuBIT
         </Link>
         <div className="flex items-center space-x-6">
           {user ? (

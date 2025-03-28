@@ -23,25 +23,29 @@ const DeviceLocation = () => {
 
     // Socket listener
     useEffect(() => {
-        socket.on("locationUpdated", (data) => {
-            const { deviceId: updatedDeviceId, lastLocation } = data;
+        const locationListener = (data) => {
+            console.log("hello world");
+            const { deviceId, lastLocation } = data;
+            console.log("Received location update:", data);
             if (
-                trackedDevice &&
-                trackedDevice.device &&
-                trackedDevice.device._id === updatedDeviceId
+                (trackedDevice && trackedDevice.device._id === deviceId) ||
+                (currentDevice && currentDevice._id === deviceId)
             ) {
                 dispatch(
                     updateTrackedDeviceLocation({
-                        deviceId: updatedDeviceId,
+                        deviceId,
                         lastLocation,
                     })
                 );
             }
-        });
-        return () => {
-            socket.off("locationUpdated");
         };
-    }, [dispatch, trackedDevice]);
+
+        socket.on("getDeviceLocation", locationListener);
+
+        return () => {
+            socket.off("getDeviceLocation", locationListener);
+        };
+    }, [dispatch, trackedDevice, currentDevice]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p className="text-red-500">{error}</p>;
@@ -70,7 +74,9 @@ const DeviceLocation = () => {
             Use a higher z-index (e.g. z-10 or z-20) 
           */}
                     <div className="hidden md:block absolute top-4 right-4 z-20 bg-white text-black bg-opacity-80 p-4 rounded shadow-md">
-                        <h2 className="text-lg font-bold mb-2 text-black">Device Info</h2>
+                        <h2 className="text-lg font-bold mb-2 text-black">
+                            Device Info
+                        </h2>
                         {location.date && (
                             <p>
                                 <span className="font-bold">Date:</span>{" "}
@@ -111,10 +117,14 @@ const DeviceLocation = () => {
                             showInfo ? "translate-y-0" : "translate-y-full"
                         }`}
                     >
-                        <h2 className="text-lg font-bold mb-2 text-black">Device Info</h2>
+                        <h2 className="text-lg font-bold mb-2 text-black">
+                            Device Info
+                        </h2>
                         {location.date && (
                             <p>
-                                <span className="font-bold text-black">Date:</span>{" "}
+                                <span className="font-bold text-black">
+                                    Date:
+                                </span>{" "}
                                 {new Date(location.date).toLocaleDateString()}
                             </p>
                         )}

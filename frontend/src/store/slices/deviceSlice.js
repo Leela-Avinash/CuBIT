@@ -37,7 +37,7 @@ export const addDevice = createAsyncThunk(
                 }
             );
             const json = await response.json();
-            console.log(json)
+            console.log(json);
             if (!response.ok) {
                 return rejectWithValue(json.message || "Failed to add device");
             }
@@ -70,6 +70,58 @@ export const fetchDevices = createAsyncThunk(
         }
     }
 );
+
+export const fetchCurrentDeviceLocation = () => (dispatch, getState) => {
+    let emitInterval;
+    let lastDeviceId = null;
+
+    // Function to update the socket emitter and listener if device changes
+    const updateDeviceListener = () => {
+        const { currentDevice } = getState().device;
+        if (currentDevice && currentDevice._id) {
+            // If the device has changed or it's the first valid device, update listeners
+            if (currentDevice._id !== lastDeviceId) {
+                lastDeviceId = currentDevice._id;
+                console.log("Switching to new device:", currentDevice);
+
+                // Remove previous listener to avoid multiple subscriptions
+                socket.off("getDeviceLocation");
+                socket.on("getDeviceLocation", (data) => {
+                    console.log("Received location update:", data);
+                    const { deviceId, lastLocation } = data;
+                    const { trackedDevice, currentDevice: updatedDevice } =
+                        getState().device;
+                    if (
+                        (trackedDevice &&
+                            trackedDevice.device._id === deviceId) ||
+                        (updatedDevice && updatedDevice._id === deviceId)
+                    ) {
+                        dispatch(
+                            updateTrackedDeviceLocation({
+                                deviceId,
+                                lastLocation,
+                            })
+                        );
+                    }
+                });
+
+                // Clear old emitter interval if it exists
+                if (emitInterval) clearInterval(emitInterval);
+                // Set up a new emitter interval for the new device
+                emitInterval = setInterval(() => {
+                    socket.emit("getDeviceLocation", {
+                        deviceId: currentDevice._id,
+                    });
+                }, 5000);
+            }
+        }
+    };
+
+    // Continuously check for changes every 1 second
+    setInterval(() => {
+        updateDeviceListener();
+    }, 1000);
+};
 
 export const fetchDeviceLocation = createAsyncThunk(
     "device/fetchDeviceLocation",
@@ -163,7 +215,7 @@ export const startLocationUpdates = () => (dispatch, getState) => {
                 },
                 { enableHighAccuracy: true, maximumAge: 0 }
             );
-        }, 2000);
+        }, 5000);
     }
 
     // Listen for the location update from the backend
@@ -213,14 +265,6 @@ const deviceSlice = createSlice({
         },
         updateTrackedDeviceLocation(state, action) {
             const { deviceId, lastLocation } = action.payload;
-            // Check if the tracked device matches the deviceId we received
-            if (
-                state.trackedDevice &&
-                state.trackedDevice.device &&
-                state.trackedDevice.device._id === deviceId
-            ) {
-                state.trackedDevice.device.lastLocation = lastLocation;
-            }
             if (state.currentDevice && state.currentDevice._id === deviceId) {
                 state.currentDevice.lastLocation = lastLocation;
             }

@@ -15,6 +15,7 @@ const DeviceList = () => {
 
     const handleDeviceClick = (device) => {
         dispatch(setCurrentDevice(device));
+        console.log("Device clicked:", device);
     };
 
     return (
