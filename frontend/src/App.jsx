@@ -58,8 +58,7 @@ function App() {
                     />
                     <Route
                         path="/login"
-                        // isAuthenticated ? <Navigate to={"/"} /> :
-                        element={<Login />}
+                        element={isAuthenticated ? <Navigate to={"/"} /> : <Login />}
                     />
                     <Route
                         path="/signup"
@@ -123,7 +122,7 @@ function App() {
                             isAuthenticated ? (
                                 <LocationHistory />
                             ) : (
-                                <LocationHistory />
+                                <Navigate to={"/login"} />
                             )
                         }
                     />
