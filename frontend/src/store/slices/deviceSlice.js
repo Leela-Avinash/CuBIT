@@ -22,10 +22,10 @@ export const addDevice = createAsyncThunk(
     "device/addDevice",
     async (deviceData, { getState, rejectWithValue }) => {
         // Check if a tracked device already exists
-        // const state = getState().device;
-        // if (state.trackedDevice) {
-        //     return rejectWithValue("This device is already added");
-        // }
+        const state = getState().device;
+        if (state.trackedDevice) {
+            return rejectWithValue("This device is already added");
+        }
         try {
             const response = await fetch(
                 `${BACKEND_URL}/api/device/add`,
