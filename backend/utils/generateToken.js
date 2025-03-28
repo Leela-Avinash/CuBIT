@@ -9,6 +9,7 @@ const generateTokenAndSetCookie = (userId, res) => {
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
         sameSite: 'none', 
+        secure: true, // Set to true if using HTTPS
     });
     
     return token;

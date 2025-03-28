@@ -23,6 +23,8 @@ connectDB();
 const corsOptions = {
     origin: `https://cubit2k25.vercel.app`,
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"], // ✅ Ensure headers are explicitly allowed
+    exposedHeaders: ["set-cookie"], // ✅ Allows frontend to see cookies in response headers
 };
 
 app.use(cors(corsOptions));
@@ -52,6 +54,8 @@ const io = new Server(server, {
     cors: {
         origin: `https://cubit2k25.vercel.app`,
         credentials: true,
+        allowedHeaders: ["Content-Type", "Authorization"], // ✅ Ensure headers are explicitly allowed
+        exposedHeaders: ["set-cookie"], // ✅ Allows frontend to see cookies in response headers
     },
 });
 

@@ -142,6 +142,7 @@ export const logoutUser = (req, res) => {
         httpOnly: true,
         expires: new Date(0),
         sameSite: "none",
+        secure: true, // Set to true if using HTTPS
         path: "/", // ensure the path matches where the cookie was set
     });
     res.status(200).json({ success: true, message: "Logged out successfully" });
