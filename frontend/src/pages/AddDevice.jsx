@@ -63,7 +63,7 @@ const AddDevice = () => {
           />
           <button
             type="submit"
-            className="w-full py-3 bg-gray-700 rounded-lg text-gray-100 font-semibold hover:bg-gray-600 transition duration-300 shadow-lg"
+            className="w-full py-3 bg-purple-700 rounded-lg text-gray-100 font-semibold hover:bg-purple-600 transition duration-300 shadow-lg"
             disabled={loading}
           >
             {loading ? "Adding..." : "Add Device"}

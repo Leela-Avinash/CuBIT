@@ -53,7 +53,7 @@ const DeviceLocation = () => {
     const location = currentDevice?.lastLocation;
 
     return (
-        <div className="relative h-screen w-screen">
+        <div className="relative h-screen w-full">
             {location ? (
                 <>
                     {/* 
@@ -73,33 +73,44 @@ const DeviceLocation = () => {
             Hidden on mobile (below md)
             Use a higher z-index (e.g. z-10 or z-20) 
           */}
-                    <div className="hidden md:block absolute top-4 right-4 z-20 bg-white text-black bg-opacity-80 p-4 rounded shadow-md">
-                        <h2 className="text-lg font-bold mb-2 text-black">
-                            Device Info
-                        </h2>
+                    {/* DESKTOP OVERLAY (top-right) */}
+                    <div
+                        className="hidden md:block absolute top-4 right-4 z-20 
+                bg-gray-800 text-white bg-opacity-95 
+                p-4 rounded-lg shadow-lg w-64 
+                overflow-hidden"
+                    >
+                        <h2 className="text-lg font-bold mb-2">Device Info</h2>
+                        {/* If you want to display the device name */}
+                        {currentDevice?.deviceName && (
+                            <p className="mb-2">
+                                <span className="font-semibold">Name:</span>{" "}
+                                {currentDevice.deviceName}
+                            </p>
+                        )}
                         {location.date && (
-                            <p>
-                                <span className="font-bold">Date:</span>{" "}
+                            <p className="mb-1">
+                                <span className="font-semibold">Date:</span>{" "}
                                 {new Date(location.date).toLocaleDateString()}
                             </p>
                         )}
                         {location.time && (
-                            <p>
-                                <span className="font-bold">Time:</span>{" "}
+                            <p className="mb-1">
+                                <span className="font-semibold">Time:</span>{" "}
                                 {location.time}
                             </p>
                         )}
-                        <p>
-                            <span className="font-bold">Latitude:</span>{" "}
+                        <p className="mb-1">
+                            <span className="font-semibold">Latitude:</span>{" "}
                             {location.latitude}
                         </p>
-                        <p>
-                            <span className="font-bold">Longitude:</span>{" "}
+                        <p className="mb-1">
+                            <span className="font-semibold">Longitude:</span>{" "}
                             {location.longitude}
                         </p>
                         {location.batteryVoltage !== undefined && (
                             <p>
-                                <span className="font-bold">
+                                <span className="font-semibold">
                                     Battery Voltage:
                                 </span>{" "}
                                 {location.batteryVoltage}
@@ -107,44 +118,44 @@ const DeviceLocation = () => {
                         )}
                     </div>
 
-                    {/* 
-            MOBILE BOTTOM SHEET
-            Fixed at bottom, hidden on desktop (md:hidden)
-            Also a high z-index so it’s above the map
-          */}
+                    {/* MOBILE BOTTOM SHEET */}
                     <div
-                        className={`md:hidden fixed bottom-0 left-0 right-0 z-20 bg-white text-black p-4 rounded-t-xl shadow-md transition-transform duration-300 ${
-                            showInfo ? "translate-y-0" : "translate-y-full"
-                        }`}
+                        className={`md:hidden fixed bottom-0 left-0 right-0 z-20 
+              bg-gray-800 text-white p-4 
+              rounded-t-xl shadow-lg transition-transform duration-300 
+              ${showInfo ? "translate-y-0" : "translate-y-full"} 
+              overflow-hidden`}
                     >
-                        <h2 className="text-lg font-bold mb-2 text-black">
-                            Device Info
-                        </h2>
+                        <h2 className="text-lg font-bold mb-2">Device Info</h2>
+                        {currentDevice?.deviceName && (
+                            <p className="mb-2">
+                                <span className="font-semibold">Name:</span>{" "}
+                                {currentDevice.deviceName}
+                            </p>
+                        )}
                         {location.date && (
-                            <p>
-                                <span className="font-bold text-black">
-                                    Date:
-                                </span>{" "}
+                            <p className="mb-1">
+                                <span className="font-semibold">Date:</span>{" "}
                                 {new Date(location.date).toLocaleDateString()}
                             </p>
                         )}
                         {location.time && (
-                            <p>
-                                <span className="font-bold">Time:</span>{" "}
+                            <p className="mb-1">
+                                <span className="font-semibold">Time:</span>{" "}
                                 {location.time}
                             </p>
                         )}
-                        <p>
-                            <span className="font-bold">Latitude:</span>{" "}
+                        <p className="mb-1">
+                            <span className="font-semibold">Latitude:</span>{" "}
                             {location.latitude}
                         </p>
-                        <p>
-                            <span className="font-bold">Longitude:</span>{" "}
+                        <p className="mb-1">
+                            <span className="font-semibold">Longitude:</span>{" "}
                             {location.longitude}
                         </p>
                         {location.batteryVoltage !== undefined && (
                             <p>
-                                <span className="font-bold">
+                                <span className="font-semibold">
                                     Battery Voltage:
                                 </span>{" "}
                                 {location.batteryVoltage}

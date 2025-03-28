@@ -32,13 +32,13 @@ const Dashboard = () => {
                             <div className="space-x-4">
                                 <Link
                                     to="/add-device"
-                                    className="inline-block bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white py-3 px-8 rounded-lg shadow-lg"
+                                    className="inline-block bg-teal-700 hover:bg-teal-600 transition-colors duration-300 text-white py-3 px-8 rounded-lg shadow-lg"
                                 >
                                     Add Device
                                 </Link>
                                 <Link
                                     to="/devices"
-                                    className="inline-block bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white py-3 px-8 rounded-lg shadow-lg"
+                                    className="inline-block bg-purple-700 hover:bg-purple-600 transition-colors duration-300 text-white py-3 px-8 rounded-lg shadow-lg"
                                 >
                                     View Devices
                                 </Link>

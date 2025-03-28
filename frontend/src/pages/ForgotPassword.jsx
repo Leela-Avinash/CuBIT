@@ -6,9 +6,13 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isSent, setIsSent] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Disable the button immediately to prevent multiple clicks
+    if (isSent) return;
+    setIsSent(true);
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/forgot-password",
@@ -17,8 +21,10 @@ const ForgotPassword = () => {
       setMessage(response.data.message);
       setError("");
     } catch (err) {
-      setError(err.response.data.message || "Error occurred");
+      setError(err.response?.data?.message || "Error occurred");
       setMessage("");
+      // Re-enable the button if there's an error
+      setIsSent(false);
     }
   };
 
@@ -45,9 +51,12 @@ const ForgotPassword = () => {
           />
           <button
             type="submit"
-            className="w-full py-3 bg-gray-600 hover:bg-gray-500 text-gray-100 font-semibold rounded-lg shadow-md transition duration-300"
+            disabled={isSent}
+            className={`w-full py-3 ${
+              isSent ? "bg-green-600" : "bg-purple-600 hover:bg-purple-500"
+            } text-gray-100 font-semibold rounded-lg shadow-md transition duration-300`}
           >
-            Send Reset Email
+            {isSent ? "Email Sent" : "Send Reset Email"}
           </button>
         </form>
         <div className="mt-4 text-center">

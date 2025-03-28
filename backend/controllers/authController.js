@@ -7,7 +7,7 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 // Helper to generate JWT
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: "30d",
+        expiresIn: "30minutes",
     });
 };
 
@@ -93,17 +93,38 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 // @route   POST /api/auth/reset-password
 // @access  Public
 export const resetPassword = asyncHandler(async (req, res) => {
-    const { email, newPassword } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-        res.status(404);
-        throw new Error("User not found");
+    try {
+        const { token, newPassword } = req.body;
+        console.log("Resetting password with token:", token);
+        console.log("New password:", newPassword);
+
+        if (!token) {
+            res.status(400).json({ success: false, message: "Token is required" });
+        }
+
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (err) {
+            res.status(400).json({success:false, message:"Invalid or expired token"});
+        }
+        console.log("Decoded token:", decoded);
+        // Get the user based on the email included in the token
+        const user = await User.findOne({ _id: decoded.id });
+        console.log(user)
+        if (!user) {
+            res.status(404);
+            throw new Error("User not found");
+        }
+
+        user.password = newPassword;
+        await user.save();
+        console.log("Password updated successfully for user:", user.username);
+        res.json({ success: true, message: "Password updated successfully" });
+    } catch (error) {
+        console.log("Error resetting password:", error.message);
+        res.status(500).json({ success: false, error: error.message });
     }
-
-    user.password = newPassword;
-    await user.save();
-
-    res.json({ message: "Password updated successfully" });
 });
 
 export const checkAuth = (req, res) => {
@@ -116,10 +137,12 @@ export const checkAuth = (req, res) => {
 };
 
 export const logoutUser = (req, res) => {
-    res.cookie("token", "", {
+    console.log("Logging out user...");
+    res.cookie("jwt", "", {
         httpOnly: true,
-        expires: new Date(0), 
+        expires: new Date(0),
         sameSite: "strict",
+        path: "/", // ensure the path matches where the cookie was set
     });
     res.status(200).json({ success: true, message: "Logged out successfully" });
 };

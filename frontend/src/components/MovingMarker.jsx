@@ -1,8 +1,10 @@
 // MovingMarker.jsx
 import React from "react";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
+import { useSelector } from "react-redux";
 
 const MovingMarker = ({ position, onMarkerClick }) => {
+  const {currentDevice } = useSelector((state) => state.device); // Assuming you have a Redux store
   // Capture map clicks for "hide" logic in the parent
   useMapEvents({
     click: () => {
@@ -19,7 +21,7 @@ const MovingMarker = ({ position, onMarkerClick }) => {
 
   return (
     <Marker position={position} eventHandlers={{ click: handleMarkerClick }}>
-      <Popup>Device Marker</Popup>
+      <Popup>{currentDevice.deviceName}</Popup>
     </Marker>
   );
 };
