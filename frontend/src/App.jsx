@@ -16,12 +16,13 @@ import { useDispatch, useSelector } from "react-redux";
 function App() {
     const dispatch = useDispatch();
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 const response = await fetch(
-                    "http://localhost:5000/api/auth/check-auth",
+                    `${BACKEND_URL}/api/auth/check-auth`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -45,13 +46,20 @@ function App() {
             <Navbar />
             <div>
                 <Routes>
-                    <Route path="/" element={isAuthenticated ? <Dashboard /> : <Navigate to={"/login"} />} />
+                    <Route
+                        path="/"
+                        element={
+                            isAuthenticated ? (
+                                <Dashboard />
+                            ) : (
+                                <Navigate to={"/login"} />
+                            )
+                        }
+                    />
                     <Route
                         path="/login"
-                        // isAuthenticated ? <Navigate to={"/"} /> : 
-                        element={
-                            <Login />
-                        }
+                        // isAuthenticated ? <Navigate to={"/"} /> :
+                        element={<Login />}
                     />
                     <Route
                         path="/signup"
@@ -111,7 +119,13 @@ function App() {
                     />
                     <Route
                         path="/device/:deviceId/history"
-                        element={isAuthenticated ? <LocationHistory /> : <LocationHistory />}
+                        element={
+                            isAuthenticated ? (
+                                <LocationHistory />
+                            ) : (
+                                <LocationHistory />
+                            )
+                        }
                     />
                 </Routes>
             </div>

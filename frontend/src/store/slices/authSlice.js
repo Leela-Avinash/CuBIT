@@ -9,6 +9,7 @@ const initialState = {
     loading: false,
     error: null,
 };
+const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
@@ -17,7 +18,7 @@ export const loginUser = createAsyncThunk(
             // Remove device related data from credentials if present
             const { device, ...loginData } = credentials;
             const response = await fetch(
-                "http://localhost:5000/api/auth/login",
+                `${BACKEND_URL}/api/auth/login`,
                 {
                     method: "POST",
                     headers: {
@@ -52,7 +53,7 @@ export const signupUser = createAsyncThunk(
             // Remove device related data from userData if present
             const { device, ...signupData } = userData;
             const response = await fetch(
-                "http://localhost:5000/api/auth/signup",
+                `${BACKEND_URL}/api/auth/signup`,
                 {
                     method: "POST",
                     headers: {

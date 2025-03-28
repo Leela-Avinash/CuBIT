@@ -14,6 +14,7 @@ const ResetPassword = () => {
     // States to control password visibility
     const [newPasswordVisible, setNewPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+    const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +24,7 @@ const ResetPassword = () => {
         }
         try {
             const response = await axios.post(
-                "http://localhost:5000/api/auth/reset-password",
+                `${BACKEND_URL}/api/auth/reset-password`,
                 { token, newPassword }
             );
             console.log(response)

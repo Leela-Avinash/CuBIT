@@ -21,7 +21,7 @@ connectDB();
 
 // Middleware
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: `https://cubit2k25.vercel.app`,
     credentials: true,
 };
 
@@ -29,6 +29,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
+app.get("/", (req, res) => {
+    console.log("API is running...");
+    res.send("API is running...");
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/device", deviceRoutes);
 app.use("/api/location", locationRoutes);
@@ -45,7 +50,7 @@ const server = app.listen(PORT, () => {
 // WebSocket setup
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: `https://cubit2k25.vercel.app`,
         credentials: true,
     },
 });

@@ -14,7 +14,9 @@ const initialState = {
     error: null,
 };
 
-const socket = io("http://localhost:5000");
+const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
+
+const socket = io(`${BACKEND_URL}`);
 
 export const addDevice = createAsyncThunk(
     "device/addDevice",
@@ -26,7 +28,7 @@ export const addDevice = createAsyncThunk(
         // }
         try {
             const response = await fetch(
-                "http://localhost:5000/api/device/add",
+                `${BACKEND_URL}/api/device/add`,
                 {
                     method: "POST",
                     headers: {
@@ -52,7 +54,7 @@ export const fetchDevices = createAsyncThunk(
     "device/fetchDevices",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await fetch("http://localhost:5000/api/device", {
+            const response = await fetch(`${BACKEND_URL}/api/device`, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -148,7 +150,7 @@ export const fetchLocationHistory = createAsyncThunk(
     async (deviceId, { rejectWithValue }) => {
         try {
             const response = await fetch(
-                `http://localhost:5000/api/location/history/${deviceId}`,
+                `${BACKEND_URL}/api/location/history/${deviceId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",

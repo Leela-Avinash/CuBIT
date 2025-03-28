@@ -8,6 +8,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   const [isSent, setIsSent] = useState(false);
 
+  const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Disable the button immediately to prevent multiple clicks
@@ -15,7 +16,7 @@ const ForgotPassword = () => {
     setIsSent(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/forgot-password",
+        `${BACKEND_URL}/api/auth/forgot-password`,
         { email }
       );
       setMessage(response.data.message);

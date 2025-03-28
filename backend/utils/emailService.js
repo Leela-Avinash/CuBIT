@@ -13,7 +13,7 @@ export const sendResetEmail = async (to, token) => {
     });
 
     // Build the reset URL (adjust the URL if needed)
-    const resetLink = `http://localhost:5173/reset-password/${token}`;
+    const resetLink = `https://cubit2k25.vercel.app/reset-password/${token}`;
 
     // Construct a well-structured HTML email that follows your dark theme
     const htmlContent = `
