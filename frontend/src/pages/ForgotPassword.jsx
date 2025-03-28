@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   const [isSent, setIsSent] = useState(false);
 
-  const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
+  const BACKEND_URL = import.meta.env.BACKEND_URL || "https://cubit.onrender.com";
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Disable the button immediately to prevent multiple clicks

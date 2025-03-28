@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 function App() {
     const dispatch = useDispatch();
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-    const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
+    const BACKEND_URL = import.meta.env.BACKEND_URL || "https://cubit.onrender.com";
 
     useEffect(() => {
         const checkAuth = async () => {

@@ -14,7 +14,7 @@ const ResetPassword = () => {
     // States to control password visibility
     const [newPasswordVisible, setNewPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-    const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
+    const BACKEND_URL = import.meta.env.BACKEND_URL || "https://cubit.onrender.com";
 
     const handleSubmit = async (e) => {
         e.preventDefault();

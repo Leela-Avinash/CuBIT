@@ -9,7 +9,7 @@ const initialState = {
     loading: false,
     error: null,
 };
-const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
+const BACKEND_URL = import.meta.env.BACKEND_URL || "https://cubit.onrender.com";
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",

@@ -7,7 +7,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const BACKEND_URL = import.meta.env.BACKEND_URL || "http://localhost:5000";
+  const BACKEND_URL = import.meta.env.BACKEND_URL || "https://cubit.onrender.com";
 
   const handleLogout = async () => {
     try {
